@@ -1,4 +1,4 @@
-package by.maksim.petstore.entitites;
+package by.maksim.petstore.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
