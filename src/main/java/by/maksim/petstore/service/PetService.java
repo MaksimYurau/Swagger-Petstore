@@ -26,7 +26,7 @@ public class PetService {
         return pets1;
     }
 
-    public Pet findPetById (long petId) {
+    public Pet findPetById (int petId) {
         for (Pet pet : pets) {
             if (pet.getId() == petId) {
                 return pet;
@@ -35,11 +35,11 @@ public class PetService {
         return null;
     }
 
-    public Pet updatePetById (Pet pet, long id) {
-
+    public Pet updatePetById (Pet pet, int petId) {
+        return null;
     }
 
-    public Pet deletePetById (Pet pet, long id) {
-
+    public Pet deletePetById (Pet pet, int petId) {
+        return null;
     }
 }
