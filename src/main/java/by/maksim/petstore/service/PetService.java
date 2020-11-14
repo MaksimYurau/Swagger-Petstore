@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class PetService {
-    List<Pet> pets = new ArrayList<>();
+    private List<Pet> pets = new ArrayList<>();
 
     public boolean save (Pet pet) {
         return pets.add(pet);
