@@ -25,7 +25,7 @@ public class PetController {
         return petService.save(pet);
     }
 
-    @GetMapping
+    @GetMapping ("/findByStatus")
     public List<Pet> findByStatus (@RequestParam Status status) {
         return petService.findByStatus(status);
     }
