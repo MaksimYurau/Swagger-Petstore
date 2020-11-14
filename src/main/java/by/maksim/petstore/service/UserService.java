@@ -24,11 +24,17 @@ public class UserService {
         return null;
     }
 
-    public User updateUserByUserName (String userName) {
+    public User updateUserByUserName (User user, String userName) {
         return null;
     }
 
-    public User deleteUserByUserName (String userName) {
+    public User deleteUserByUserName (User user, String userName) {
+        for (int i = 0; i < users.size(); i++) {
+            if (user.getUserName().equals(userName)) {
+                user = null;
+                return user;
+            }
+        }
         return null;
     }
 

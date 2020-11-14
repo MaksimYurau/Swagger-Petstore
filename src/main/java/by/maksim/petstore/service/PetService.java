@@ -40,6 +40,12 @@ public class PetService {
     }
 
     public Pet deletePetById (Pet pet, int petId) {
+        for (int i = 0; i < pets.size(); i++) {
+            if (pet.getId() == petId) {
+                pet = null;
+                return pet;
+            }
+        }
         return null;
     }
 }
