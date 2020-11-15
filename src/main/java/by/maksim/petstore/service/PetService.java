@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class PetService {
-    private List<Pet> pets = new ArrayList<>();
+    private static List<Pet> pets = new ArrayList<>();
 
     public boolean save (Pet pet) throws PetNotFoundException {
         if (!pets.add(pet)) {

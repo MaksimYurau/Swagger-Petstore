@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private List<User> users = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
 
     public boolean save (User user) throws UserNotFoundException {
         if (!users.add(user)) {
