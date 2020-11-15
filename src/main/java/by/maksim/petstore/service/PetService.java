@@ -3,6 +3,7 @@ package by.maksim.petstore.service;
 import by.maksim.petstore.entity.Pet;
 import by.maksim.petstore.entity.Status;
 import by.maksim.petstore.entity.Tag;
+import by.maksim.petstore.exception.PetNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,18 +13,23 @@ import java.util.List;
 public class PetService {
     private List<Pet> pets = new ArrayList<>();
 
-    public boolean save (Pet pet) {
-        return pets.add(pet);
+    public boolean save (Pet pet) throws PetNotFoundException {
+        if (!pets.add(pet)) {
+            throw new PetNotFoundException();
+        } else {
+            return true;
+        }
     }
 
-    public List<Pet> findByStatus (Status status) {
+    public List<Pet> findByStatus (Status status) throws PetNotFoundException {
         List<Pet> pets1 = new ArrayList<>();
         for (Pet pet : pets) {
             if (pet.getStatus().equals(status)) {
                 pets1.add(pet);
+                return pets1;
             }
         }
-        return pets1;
+        throw new PetNotFoundException();
     }
 
     public Pet findPetById (int petId) {
@@ -35,17 +41,17 @@ public class PetService {
         return null;
     }
 
-    public Pet updatePetById (Pet pet, int petId) {
-        return null;
+    public Pet updatePetById (Pet pet, int petId) throws PetNotFoundException {
+        throw new PetNotFoundException();
     }
 
-    public Pet deletePetById (Pet pet, int petId) {
+    public Pet deletePetById (Pet pet, int petId) throws PetNotFoundException {
         for (int i = 0; i < pets.size(); i++) {
             if (pet.getId() == petId) {
                 pet = null;
                 return pet;
             }
         }
-        return null;
+        throw new PetNotFoundException();
     }
 }
