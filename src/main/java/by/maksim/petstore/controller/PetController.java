@@ -30,17 +30,17 @@ public class PetController {
         return petService.findByStatus(status);
     }
 
-    @GetMapping
+    @GetMapping ("/{petId}")
     public Pet findPetById (@PathVariable int petId) {
         return petService.findPetById(petId);
     }
 
-    @PostMapping
+    @PostMapping ("/{petId}")
     public Pet updatePetById (@RequestBody Pet pet, @PathVariable int petId) {
         return petService.updatePetById(pet, petId);
     }
 
-    @DeleteMapping
+    @DeleteMapping ("/{petId}")
     public Pet deletePetById (@RequestBody Pet pet, @PathVariable int petId) {
         return petService.deletePetById(pet, petId);
     }

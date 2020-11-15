@@ -19,17 +19,17 @@ public class UserController {
         return userService.save(user);
     }
 
-    @GetMapping
+    @GetMapping ("/{userName}")
     public User getUserByUserName (@PathVariable String userName) {
         return userService.getUserByUserName(userName);
     }
 
-    @PutMapping
+    @PutMapping ("/{userName}")
     public User updateUserByUserName (@RequestBody User user, @PathVariable String userName) {
         return userService.updateUserByUserName(user, userName);
     }
 
-    @DeleteMapping
+    @DeleteMapping ("/{userName}")
     public User deleteUserByUserName (@RequestBody User user, @PathVariable String userName) {
         return userService.deleteUserByUserName(user, userName);
     }
