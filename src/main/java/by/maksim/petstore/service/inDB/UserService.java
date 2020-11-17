@@ -1,4 +1,4 @@
-package by.maksim.petstore.api;
+package by.maksim.petstore.service.inDB;
 
 import by.maksim.petstore.entity.User;
 import by.maksim.petstore.repository.UserRepository;
@@ -11,50 +11,46 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class UserApiImpl {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public UserApiImpl(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity <Void> createUser (User user) {
+    public User createUser(User user) {
         userRepository.save(user);
-        return ResponseEntity.ok().build();
+        return user;
     }
 
-    public ResponseEntity <Void> createUsersWithArrayInput (List<User> users) {
+    public ResponseEntity<Void> createUsersWithArrayInput(List<User> users) {
         userRepository.saveAll(users);
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity <Void> createUsersWithListInput (List<User> users) {
+    public ResponseEntity<Void> createUsersWithListInput(List<User> users) {
         return createUsersWithArrayInput(users);
     }
 
-    public ResponseEntity<User> getUserByUserName (String userName) {
-        return userRepository.findUserByUserName(userName);
+    public ResponseEntity<User> getUserByUserName(String userName) {
+        return userRepository.findUserByUsername(userName);
     }
 
-    public ResponseEntity<Void> updateUser (String userName, User user) {
-        user.setUserName(userName);
+    public User updateUser(String userName, User user) {
+        user.setUsername(userName);
         return createUser(user);
     }
 
-    public ResponseEntity<Void> deleteUser (int id) {
+    public ResponseEntity<Void> deleteUser(int id) {
         User user = userRepository.findById((long) id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         userRepository.delete(user);
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<Void> logoutUser () {
+    public ResponseEntity<Void> logoutUser() {
         return ResponseEntity.ok().build();
-    }
-
-    public static User createUser (int id, String userName, String firstName, String lastName, String email, String password, String phone, int userStatus) {
-        return new User(id, userName, firstName, lastName, email, password, phone, userStatus);
     }
 }

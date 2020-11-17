@@ -1,0 +1,41 @@
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "id": 0,
+  "username": "test",
+  "firstName": "string",
+  "secondName": "string",
+  "email": "string",
+  "password": "test",
+  "phone": "string",
+  "userStatus": 0
+}
+
+###
+
+GET http://localhost:8080/user/getBy?username=string
+
+###
+
+PUT http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "id": 13,
+  "username": "string",
+  "firstName": "test",
+  "secondName": "test",
+  "email": "test",
+  "password": "test",
+  "phone": "test",
+  "userStatus": 69
+}
+
+###
+
+DELETE http://localhost:8080/user/delete?username=test
+
+###
+
+POST http://localhost:8080/user/auth?username=test&password=test

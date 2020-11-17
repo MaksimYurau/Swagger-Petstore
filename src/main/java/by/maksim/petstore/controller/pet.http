@@ -1,0 +1,51 @@
+POST localhost:8080/pet
+Content-Type: application/json
+
+{
+  "id": 1,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "string",
+  "tags": [
+    {
+      "id": 13,
+      "name": "string"
+    }
+  ],
+  "status": "AVAILABLE"
+}
+
+###
+
+GET localhost:8080/pet/getBy?id=1
+
+###
+
+PUT localhost:8080/pet
+Content-Type: application/json
+
+{
+  "id": 1,
+  "category": {
+    "id": 69,
+    "name": "test"
+  },
+  "name": "test",
+  "tags": [
+    {
+      "id": 69,
+      "name": "test"
+    }
+  ],
+  "status": "AVAILABLE"
+}
+
+###
+
+GET localhost:8080/pet/findByStatus?status=SOLD
+
+###
+
+DELETE localhost:8080/pet/delete?id=1

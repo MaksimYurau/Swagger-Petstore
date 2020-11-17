@@ -1,0 +1,25 @@
+POST localhost:8080/order
+Content-Type: application/json
+
+{
+  "id": 3,
+  "petId": 14,
+  "quantity": 6,
+  "shipDate": "2020-11-16T04:56:40.116Z",
+  "orderStatus": "PLACED",
+  "complete": true
+}
+
+###
+
+GET localhost:8080/order/findBy?id=3
+
+###
+
+POST localhost:8080/order/deleteBy?id=3
+
+###
+
+GET localhost:8080/order/inventory
+
+###
