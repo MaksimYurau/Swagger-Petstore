@@ -3,6 +3,7 @@ package by.maksim.petstore.service.inMemory;
 import by.maksim.petstore.entity.Category;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class InMemoryCategoryService {
     private List<Category> categories = new ArrayList<>();
 
-    public boolean save(Category category) {
+    public boolean save(@Valid Category category) {
         return categories.add(category);
     }
 
@@ -38,7 +39,7 @@ public class InMemoryCategoryService {
         return false;
     }
 
-    public boolean update (Category category) {
+    public boolean update (@Valid Category category) {
         for (int i = 0; i < categories.size(); i++) {
             if (categories.get(i).getId() == category.getId()) {
                 categories.set(i, category);

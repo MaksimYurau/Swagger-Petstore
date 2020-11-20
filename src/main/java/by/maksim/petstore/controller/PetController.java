@@ -1,7 +1,6 @@
 package by.maksim.petstore.controller;
 
 import by.maksim.petstore.entity.ApiResponse;
-import by.maksim.petstore.entity.Order;
 import by.maksim.petstore.entity.Pet;
 import by.maksim.petstore.entity.Status;
 import by.maksim.petstore.service.inMemory.InMemoryPetService;

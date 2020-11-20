@@ -3,6 +3,7 @@ package by.maksim.petstore.service.inMemory;
 import by.maksim.petstore.entity.Tag;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class InMemoryTagService {
     List<Tag> tags = new ArrayList<>();
 
-    public boolean save(Tag tag) {
+    public boolean save(@Valid Tag tag) {
         return tags.add(tag);
     }
 
