@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    public Pet createPet(Pet pet) {
+    public Pet createPet(@Valid Pet pet) {
         petRepository.save(pet);
         return pet;
     }
@@ -30,7 +31,7 @@ public class PetService {
         return petRepository.findPetByStatus(status);
     }
 
-    public Pet updatePet(int petId, Pet pet) {
+    public Pet updatePet(int petId, @Valid Pet pet) {
         pet.setId(petId);
         return createPet(pet);
     }

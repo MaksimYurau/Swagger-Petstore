@@ -5,6 +5,7 @@ import by.maksim.petstore.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -13,7 +14,11 @@ public class TagService {
     @Autowired
     private TagRepository tagRepository;
 
-    public boolean save(Tag tag) {
+    public TagService(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
+
+    public boolean save(@Valid Tag tag) {
         if (tagRepository.existsByName(tag.getName())) {
             return false;
         }
@@ -33,7 +38,7 @@ public class TagService {
         tagRepository.deleteById((long) id);
     }
 
-    public boolean update(Tag tag) {
+    public boolean update(@Valid Tag tag) {
         if (tagRepository.existsById((long) tag.getId())) {
             tagRepository.save(tag);
             return true;

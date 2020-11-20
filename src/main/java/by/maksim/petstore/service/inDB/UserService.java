@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -20,7 +21,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
+    public User createUser(@Valid User user) {
         userRepository.save(user);
         return user;
     }
@@ -38,7 +39,7 @@ public class UserService {
         return userRepository.findUserByUsername(userName);
     }
 
-    public User updateUser(String userName, User user) {
+    public User updateUser(String userName, @Valid User user) {
         user.setUsername(userName);
         return createUser(user);
     }
