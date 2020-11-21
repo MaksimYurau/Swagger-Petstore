@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class OrderController {
     private InMemoryOrderService inMemoryOrderService;
 
     @PostMapping
-    public ApiResponse save(@RequestBody Order order) {
+    public ApiResponse save(@Valid @RequestBody Order order) {
         ApiResponse apiResponse;
         if (inMemoryOrderService.save(order)) {
             apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");

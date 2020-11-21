@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/pet")
@@ -18,7 +18,7 @@ public class PetController {
     private InMemoryPetService inMemoryPetService;
 
     @PostMapping
-    public ApiResponse add(@RequestBody Pet pet) {
+    public ApiResponse add(@Valid @RequestBody Pet pet) {
         ApiResponse apiResponse;
         if (inMemoryPetService.save(pet)) {
             apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
@@ -34,7 +34,7 @@ public class PetController {
     }
 
     @PutMapping
-    public ApiResponse update(@RequestBody Pet pet) {
+    public ApiResponse update(@Valid @RequestBody Pet pet) {
         ApiResponse apiResponse;
         if (inMemoryPetService.update(pet)) {
             apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");

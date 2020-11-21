@@ -4,6 +4,7 @@ import by.maksim.petstore.entity.Order;
 import by.maksim.petstore.exception.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class InMemoryOrderService {
     private List<Order> orders = new ArrayList<>();
 
-    public boolean save(Order order) {
+    public boolean save(@Valid Order order) {
         return orders.add(order);
     }
 

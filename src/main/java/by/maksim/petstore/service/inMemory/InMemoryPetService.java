@@ -6,6 +6,7 @@ import by.maksim.petstore.entity.Tag;
 import by.maksim.petstore.exception.PetNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class InMemoryPetService {
     private List<Pet> pets = new ArrayList<>();
 
-    public boolean save(Pet pet) {
+    public boolean save(@Valid Pet pet) {
         return pets.add(pet);
     }
 
@@ -27,7 +28,7 @@ public class InMemoryPetService {
         return pet;
     }
 
-    public boolean update(Pet pet) {
+    public boolean update(@Valid Pet pet) {
         for (int i = 0; i < pets.size(); i++) {
             if (pets.get(i).getId() == pet.getId()) {
                 pets.set(i, pet);

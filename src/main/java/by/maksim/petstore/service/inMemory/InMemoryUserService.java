@@ -1,10 +1,9 @@
 package by.maksim.petstore.service.inMemory;
 
 import by.maksim.petstore.entity.User;
-import by.maksim.petstore.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class InMemoryUserService {
     private List<User> users = new ArrayList<>();
     private List<String> tokens = new ArrayList<>();
 
-    public boolean save(User user) {
+    public boolean save(@Valid User user) {
         return users.add(user);
     }
 
@@ -26,7 +25,7 @@ public class InMemoryUserService {
         return null;
     }
 
-    public boolean update(User user) {
+    public boolean update(@Valid User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equals(user.getUsername())) {
                 users.set(i, user);

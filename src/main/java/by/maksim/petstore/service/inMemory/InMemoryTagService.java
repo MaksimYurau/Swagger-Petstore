@@ -40,7 +40,7 @@ public class InMemoryTagService {
         return false;
     }
 
-    public boolean update (Tag tag) {
+    public boolean update (@Valid Tag tag) {
         for (int i = 0; i < tags.size(); i++) {
             if (tags.get(i).getId() == tag.getId()) {
                 tags.set(i, tag);
