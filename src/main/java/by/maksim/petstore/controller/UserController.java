@@ -2,6 +2,7 @@ package by.maksim.petstore.controller;
 
 import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.User;
+import by.maksim.petstore.service.inDB.UserService;
 import by.maksim.petstore.service.inMemory.InMemoryUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     private InMemoryUserService inMemoryUserService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ApiResponse save(@Valid @RequestBody User user) {

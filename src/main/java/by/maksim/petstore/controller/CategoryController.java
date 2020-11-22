@@ -1,6 +1,7 @@
 package by.maksim.petstore.controller;
 
 import by.maksim.petstore.entity.Category;
+import by.maksim.petstore.service.inDB.CategoryService;
 import by.maksim.petstore.service.inMemory.InMemoryCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class CategoryController {
 
     @Autowired
     private InMemoryCategoryService inMemoryCategoryService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<Boolean> save(@Valid @RequestBody Category category) {

@@ -3,6 +3,7 @@ package by.maksim.petstore.controller;
 import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.Pet;
 import by.maksim.petstore.entity.Status;
+import by.maksim.petstore.service.inDB.PetService;
 import by.maksim.petstore.service.inMemory.InMemoryPetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class PetController {
 
     @Autowired
     private InMemoryPetService inMemoryPetService;
+
+    @Autowired
+    private PetService petService;
 
     @PostMapping
     public ApiResponse add(@Valid @RequestBody Pet pet) {

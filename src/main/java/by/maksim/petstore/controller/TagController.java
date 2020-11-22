@@ -1,6 +1,7 @@
 package by.maksim.petstore.controller;
 
 import by.maksim.petstore.entity.Tag;
+import by.maksim.petstore.service.inDB.TagService;
 import by.maksim.petstore.service.inMemory.InMemoryTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class TagController {
 
     @Autowired
     private InMemoryTagService inMemoryTagService;
+
+    @Autowired
+    private TagService tagService;
 
     @PostMapping
     public ResponseEntity<Boolean> save(@Valid @RequestBody Tag tag) {

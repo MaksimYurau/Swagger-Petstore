@@ -2,6 +2,7 @@ package by.maksim.petstore.controller;
 
 import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.Order;
+import by.maksim.petstore.service.inDB.OrderService;
 import by.maksim.petstore.service.inMemory.InMemoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class OrderController {
 
     @Autowired
     private InMemoryOrderService inMemoryOrderService;
+
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping
     public ApiResponse save(@Valid @RequestBody Order order) {
