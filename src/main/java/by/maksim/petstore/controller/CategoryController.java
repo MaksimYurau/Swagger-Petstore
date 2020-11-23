@@ -23,7 +23,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<Boolean> save(@Valid @RequestBody Category category) {
-        if (inMemoryCategoryService.save(category)) {
+        if (categoryService.save(category)) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -31,17 +31,17 @@ public class CategoryController {
 
     @GetMapping(path = "/getById")
     public ResponseEntity<Category> getById(@RequestParam int id) {
-        return new ResponseEntity<>(inMemoryCategoryService.getById(id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(categoryService.getById(id), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Category>> getAll() {
-        return new ResponseEntity<>(inMemoryCategoryService.getAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(categoryService.getAll(), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping
     public ResponseEntity deleteById(@RequestParam int id) {
-        inMemoryCategoryService.delete(id);
+        categoryService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

@@ -23,7 +23,7 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<Boolean> save(@Valid @RequestBody Tag tag) {
-        if (inMemoryTagService.save(tag)) {
+        if (tagService.save(tag)) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -31,17 +31,17 @@ public class TagController {
 
     @GetMapping(path = "/getById")
     public ResponseEntity<Tag> getById(@RequestParam int id) {
-        return new ResponseEntity<>(inMemoryTagService.getById(id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(tagService.getById(id), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Tag>> getAll() {
-        return new ResponseEntity<>(inMemoryTagService.getAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(tagService.getAll(), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping
     public ResponseEntity deleteById(@RequestParam int id) {
-        inMemoryTagService.deleteById(id);
+        tagService.deleteById(id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 }
