@@ -6,6 +6,7 @@ import by.maksim.petstore.service.inDB.UserService;
 import by.maksim.petstore.service.inMemory.InMemoryUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,8 +34,8 @@ public class UserController {
     }
 
     @GetMapping(path = "/getBy")
-    public User getByUserName(@RequestParam String username) {
-        return inMemoryUserService.getUserByUsername(username);
+    public ResponseEntity<User> getByUserName(@RequestParam String username) {
+        return userService.getUserByUserName(username);
     }
 
     @PutMapping
