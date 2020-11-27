@@ -1,15 +1,16 @@
 package by.maksim.petstore.controller;
 
-import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.Pet;
 import by.maksim.petstore.entity.Status;
 import by.maksim.petstore.service.inDB.PetService;
 import by.maksim.petstore.service.inMemory.InMemoryPetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/pet")
@@ -22,45 +23,45 @@ public class PetController {
     private PetService petService;
 
     @PostMapping
-    public ApiResponse add(@Valid @RequestBody Pet pet) {
-        ApiResponse apiResponse;
-        if (inMemoryPetService.save(pet)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
+    public ResponseEntity<Boolean> add(@Valid @RequestBody Pet pet) {
+        if (petService.createPet(pet)) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return apiResponse;
     }
 
     @GetMapping(path = "/getBy")
-    public Pet getByID(@RequestParam long id) {
-        return inMemoryPetService.findByID(id);
+    public ResponseEntity<Pet> getById(@RequestParam long id) {
+        Pet byId = petService.findById(id);
+        if (byId != null) {
+            return new ResponseEntity<>(byId, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping
-    public ApiResponse update(@Valid @RequestBody Pet pet) {
-        ApiResponse apiResponse;
-        if (inMemoryPetService.update(pet)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
-        }
-        return apiResponse;
+    public ResponseEntity<Boolean> update(@Valid @RequestBody Pet pet) {
+            if (petService.updatePet(pet)) {
+                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "/findByStatus")
-    public Pet getByStatus(@RequestParam Status status) {
-        return inMemoryPetService.getByStatus(status);
+    @PostMapping(path = "/findByStatus")
+    public ResponseEntity<?> getByStatus(@RequestParam Status status) {
+        List<Pet> petsByStatus = petService.getPetByStatus(status);
+        if (petsByStatus != null) {
+            return new ResponseEntity<>(petsByStatus, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(path = "/delete")
-    public ApiResponse delete(@RequestParam long id) {
-        ApiResponse apiResponse;
-        if (inMemoryPetService.delete(id)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+    public ResponseEntity<Boolean> deleteById(@RequestParam int id) {
+        if (petService.deletePet(id)) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        return apiResponse;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

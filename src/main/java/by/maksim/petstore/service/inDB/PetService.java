@@ -4,13 +4,12 @@ import by.maksim.petstore.entity.Pet;
 import by.maksim.petstore.entity.Status;
 import by.maksim.petstore.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetService {
@@ -22,24 +21,38 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    public Pet createPet(@Valid Pet pet) {
+    public boolean createPet(@Valid Pet pet) {
         petRepository.save(pet);
-        return pet;
+        return true;
+    }
+
+    public Pet findById(long id) {
+        Optional<Pet> byId = petRepository.findById(id);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        return null;
     }
 
     public List<Pet> getPetByStatus(Status status) {
-        return petRepository.findPetByStatus(status);
+        List<Pet> pets = new ArrayList<>();
+        pets.add(petRepository.getPetsByStatus(status));
+        return pets;
     }
 
-    public Pet updatePet(int petId, @Valid Pet pet) {
-        pet.setId(petId);
-        return createPet(pet);
+    public boolean updatePet(@Valid Pet pet) {
+        if (petRepository.existsById((long) pet.getId())) {
+            petRepository.save(pet);
+            return true;
+        }
+        return false;
     }
 
-    public ResponseEntity<Void> deletePet(int petId) {
-        Pet pet = petRepository.findById((long) petId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        petRepository.delete(pet);
-        return ResponseEntity.ok().build();
+    public boolean deletePet(int petId) {
+        if (petRepository.existsById((long) petId)) {
+            petRepository.deleteById((long) petId);
+            return true;
+        }
+        return false;
     }
 }

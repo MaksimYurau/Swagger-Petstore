@@ -1,6 +1,5 @@
 package by.maksim.petstore.controller;
 
-import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.User;
 import by.maksim.petstore.service.inDB.UserService;
 import by.maksim.petstore.service.inMemory.InMemoryUserService;
@@ -23,41 +22,37 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ApiResponse save(@Valid @RequestBody User user) {
-        ApiResponse apiResponse;
-        if (inMemoryUserService.save(user)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+    public ResponseEntity<Boolean> addUser(@Valid @RequestBody User user) {
+        if (userService.createUser(user)) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        return apiResponse;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "/getBy")
-    public ResponseEntity<User> getByUserName(@RequestParam String username) {
-        return userService.getUserByUserName(username);
+    @GetMapping(path = "/getByUsername")
+    public ResponseEntity<User> getByUsername(@Valid @RequestParam String username) {
+        User byUsername = userService.getUserByUserName(username);
+        if (byUsername != null) {
+            return new ResponseEntity<>(byUsername, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping
-    public ApiResponse update(@Valid @RequestBody User user) {
-        ApiResponse apiResponse;
-        if (inMemoryUserService.update(user)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+    @PutMapping(path = "/update")
+    public ResponseEntity<Boolean> updateUser(@Valid @RequestBody User user) {
+        if (userService.updateUser(user)) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        return apiResponse;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(path = "/delete")
-    public ApiResponse delete(@RequestParam String username) {
-        ApiResponse apiResponse;
-        if (inMemoryUserService.delete(username)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
-        }
-        return apiResponse;
+    public ResponseEntity<?> deleteUser(@Valid @RequestParam String username) {
+        userService.deleteUser(username);
+//     if (userService.deleteUser(username)){
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//     }
+//     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(path = "/auth")

@@ -3,10 +3,8 @@ package by.maksim.petstore.service.inDB;
 import by.maksim.petstore.entity.User;
 import by.maksim.petstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,34 +19,36 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(@Valid User user) {
+    public boolean createUser(@Valid User user) {
         userRepository.save(user);
-        return user;
+        return true;
     }
 
-    public ResponseEntity<Void> createUsersWithArrayInput(List<User> users) {
+    public boolean createUsersWithArrayInput(List<User> users) {
         userRepository.saveAll(users);
-        return ResponseEntity.ok().build();
+        return true;
     }
 
-    public ResponseEntity<Void> createUsersWithListInput(List<User> users) {
-        return createUsersWithArrayInput(users);
+    public boolean createUsersWithListInput(List<User> users) {
+        userRepository.saveAll(users);
+        return true;
     }
 
-    public ResponseEntity<User> getUserByUserName(String userName) {
-        return userRepository.findUserByUsername(userName);
+    public User getUserByUserName(String username) {
+        User userByUsername = userRepository.getUserByUsername(username);
+        return userByUsername;
     }
 
-    public User updateUser(String userName, @Valid User user) {
-        user.setUsername(userName);
-        return createUser(user);
+    public boolean updateUser(@Valid User user) {
+        if (userRepository.existsById((long) user.getId())) {
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
-    public ResponseEntity<Void> deleteUser(int id) {
-        User user = userRepository.findById((long) id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        userRepository.delete(user);
-        return ResponseEntity.ok().build();
+    public void deleteUser(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     public ResponseEntity<Void> logoutUser() {

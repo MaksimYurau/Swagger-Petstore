@@ -1,11 +1,11 @@
 package by.maksim.petstore.controller;
 
-import by.maksim.petstore.entity.ApiResponse;
 import by.maksim.petstore.entity.Order;
 import by.maksim.petstore.service.inDB.OrderService;
 import by.maksim.petstore.service.inMemory.InMemoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,35 +21,39 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping
-    public ApiResponse save(@Valid @RequestBody Order order) {
-        ApiResponse apiResponse;
-        if (inMemoryOrderService.save(order)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+    @PostMapping(path = "/order")
+    public ResponseEntity<Boolean> addOrder(@Valid @RequestBody Order order) {
+        if (order.getId() <= 10) {
+            if (order.getId() >= 1) {
+                if (orderService.addOrder(order)) {
+                    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
         }
-        return apiResponse;
+        return null;
     }
 
-    @GetMapping(path = "findBy")
-    public Order findByID(@RequestParam long id) {
-        return inMemoryOrderService.findByID(id);
+    @GetMapping(path = "findById")
+    public ResponseEntity<Order> findById(@RequestParam int id) {
+        Order orderById = orderService.getOrderById(id);
+        if (orderById != null) {
+            return new ResponseEntity<>(orderById,HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(path = "/deleteBy")
-    public ApiResponse deleteByID(@RequestParam long id) {
-        ApiResponse apiResponse;
-        if (inMemoryOrderService.removeByID(id)) {
-            apiResponse = new ApiResponse(HttpStatus.ACCEPTED.value(), "Accepted", "Operation succeed");
-        } else {
-            apiResponse = new ApiResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Error", "Invalid input");
+    public ResponseEntity<Boolean> deleteOrderById(@RequestParam int id) {
+        if (orderService.deleteOrderById(id)) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        return apiResponse;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "/inventory")
     public List<Order> getAll() {
-        return inMemoryOrderService.getAll();
+        return orderService.getAll();
     }
 }
